@@ -27,8 +27,19 @@ namespace MnistImage
         {
             this.Width = width;
             this.Height = Height;
-            this.Pixels = pixels;
             this.Label = label;
+            this.Pixels = new byte[MNIST_WIDTH][];
+            for (int i = 0; i < this.Pixels.Length; i++)
+            {
+                this.Pixels[i] = new byte[MNIST_HEIGHT];
+            }
+            for (int i = 0; i < MNIST_HEIGHT; i++)
+            {
+                for (int j = 0; j < MNIST_WIDTH; j++)
+                {
+                    this.Pixels[i][j] = pixels[i][j];
+                }
+            }
         }
 
         public string PixelString
