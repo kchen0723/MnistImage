@@ -26,7 +26,7 @@ namespace MnistImage
         public MnistImageInfo(int width, int height, byte[][] pixels, string label)
         {
             this.Width = width;
-            this.Height = Height;
+            this.Height = height;
             this.Label = label;
             this.Pixels = new byte[MNIST_WIDTH][];
             for (int i = 0; i < this.Pixels.Length; i++)
@@ -49,7 +49,7 @@ namespace MnistImage
                 StringBuilder sb = new StringBuilder();
                 for (int i = 0; i < this.Height; i++)
                 {
-                    for (int j = 0; i < this.Width; j++)
+                    for (int j = 0; j < this.Width; j++)
                     {
                         sb.Append(this.Pixels[i][j].ToString("X2"));
                         sb.Append(" ");

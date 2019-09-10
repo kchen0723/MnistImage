@@ -39,7 +39,7 @@ namespace MnistImage
                                     for (int k = 0; k < MnistImageInfo.MNIST_WIDTH; k++)
                                     {
                                         byte b = imageReader.ReadByte();
-                                        pixels[i][j] = b;
+                                        pixels[j][k] = b;
                                     }
                                 }
                                 Byte lbl = labelReader.ReadByte();
