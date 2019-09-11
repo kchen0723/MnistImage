@@ -9,38 +9,38 @@ namespace MnistImage
 {
     public class MnistImageLoader
     {
-        public const int MNIST_IMAGE_NUMBER = 60000;
-        public static MnistImageInfo[] LoadMnistImages(string pixelFile, string lableFile)
+        public static List<MnistImageInfo> LoadMnistImages(string pixelFile, string lableFile)
         {
-            MnistImageInfo[] result = new MnistImageInfo[MNIST_IMAGE_NUMBER];
-            byte[,] pixels = new byte[MnistImageInfo.MNIST_WIDTH, MnistImageInfo.MNIST_HEIGHT];
-            using (FileStream fsPixels = new FileStream(pixelFile, FileMode.Open))
-            {
-                using (FileStream fsLables = new FileStream(lableFile, FileMode.Open))
+            List<MnistImageInfo> result = new List<MnistImageInfo>(1000);
+            if (File.Exists(pixelFile) && File.Exists(lableFile))
+            { 
+                using (FileStream fsPixels = new FileStream(pixelFile, FileMode.Open), fsLables = new FileStream(lableFile, FileMode.Open))
                 {
-                    using (BinaryReader imageReader = new BinaryReader(fsPixels))
+                    using (BinaryReader imageReader = new BinaryReader(fsPixels), labelReader = new BinaryReader(fsLables))
                     {
-                        using (BinaryReader labelReader = new BinaryReader(fsLables))
+                        int magicNumber = reverseBytes(imageReader.ReadInt32());
+                        int imageCount = reverseBytes(imageReader.ReadInt32());
+                        int imageWidth = reverseBytes(imageReader.ReadInt32());
+                        int imageHeight = reverseBytes(imageReader.ReadInt32());
+                        int magicNumber2 = reverseBytes(labelReader.ReadInt32());
+                        int labelCount = reverseBytes(labelReader.ReadInt32());
+
+                        if (imageCount > 0 && imageWidth > 0 && imageHeight > 0 && imageCount == labelCount)
                         {
-                            int magicNumber = reverseBytes(imageReader.ReadInt32());
-                            int imageCount = reverseBytes(imageReader.ReadInt32());
-                            int rowCount = reverseBytes(imageReader.ReadInt32());
-                            int colcount = reverseBytes(imageReader.ReadInt32());
-                            int magicNumber2 = reverseBytes(labelReader.ReadInt32());
-                            int labelCount = reverseBytes(labelReader.ReadInt32());
-                            for (int i = 0; i < MNIST_IMAGE_NUMBER; i++)
+                            byte[,] pixels = new byte[imageWidth, imageHeight];
+                            for (int i = 0; i < imageCount; i++)
                             {
-                                for (int j = 0; j < MnistImageInfo.MNIST_HEIGHT; j++)
+                                for (int j = 0; j < imageWidth; j++)
                                 {
-                                    for (int k = 0; k < MnistImageInfo.MNIST_WIDTH; k++)
+                                    for (int k = 0; k < imageHeight; k++)
                                     {
                                         byte b = imageReader.ReadByte();
                                         pixels[j, k] = b;
                                     }
                                 }
-                                Byte lbl = labelReader.ReadByte();
-                                MnistImageInfo image = new MnistImageInfo(pixels, lbl.ToString());
-                                result[i] = image;
+                                string label = labelReader.ReadByte().ToString();
+                                MnistImageInfo mnistImage = new MnistImageInfo(imageWidth, imageHeight, pixels, label);
+                                result.Add(mnistImage);
                             }
                         }
                     }

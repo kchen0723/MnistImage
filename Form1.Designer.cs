@@ -75,6 +75,7 @@
             // 
             // btnShowImage
             // 
+            this.btnShowImage.Enabled = false;
             this.btnShowImage.Location = new System.Drawing.Point(656, 90);
             this.btnShowImage.Name = "btnShowImage";
             this.btnShowImage.Size = new System.Drawing.Size(100, 26);
