@@ -95,17 +95,17 @@
             // 
             this.pbImage.Location = new System.Drawing.Point(57, 184);
             this.pbImage.Name = "pbImage";
-            this.pbImage.Size = new System.Drawing.Size(178, 166);
+            this.pbImage.Size = new System.Drawing.Size(152, 148);
             this.pbImage.TabIndex = 6;
             this.pbImage.TabStop = false;
             // 
             // tbPixelString
             // 
-            this.tbPixelString.Location = new System.Drawing.Point(299, 145);
+            this.tbPixelString.Location = new System.Drawing.Point(226, 145);
             this.tbPixelString.Multiline = true;
             this.tbPixelString.Name = "tbPixelString";
             this.tbPixelString.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbPixelString.Size = new System.Drawing.Size(456, 277);
+            this.tbPixelString.Size = new System.Drawing.Size(529, 277);
             this.tbPixelString.TabIndex = 7;
             // 
             // Form1
