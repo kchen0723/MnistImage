@@ -22,7 +22,7 @@ namespace MnistImage
         private void BtnLoad_Click(object sender, EventArgs e)
         {
             _images = MnistImageLoader.LoadMnistImages(tbImage.Text, tbLabel.Text);
-            MessageBox.Show("Loaded");
+            MessageBox.Show("Loaded. total Image is: " + _images.Count);
             btnShowImage.Enabled = true;
         }
 
