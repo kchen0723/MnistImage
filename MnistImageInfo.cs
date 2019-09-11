@@ -16,28 +16,24 @@ namespace MnistImage
         public int Width { get; set; }
         public int Height { get; set; }
         public string Label { get; set; }
-        public byte[][] Pixels { get; set; }
+        public byte[,] Pixels { get; set; }
 
-        public MnistImageInfo(byte[][] pixels, string label) 
-            : this(MNIST_WIDTH, MNIST_HEIGHT, pixels, label)
+        public MnistImageInfo(byte[,] sourcePixels, string sourceLabel) 
+            : this(MNIST_WIDTH, MNIST_HEIGHT, sourcePixels, sourceLabel)
         {
         }
 
-        public MnistImageInfo(int width, int height, byte[][] pixels, string label)
+        public MnistImageInfo(int sourceWidth, int sourceHeight, byte[,] sourcePixels, string sourceLabel)
         {
-            this.Width = width;
-            this.Height = height;
-            this.Label = label;
-            this.Pixels = new byte[MNIST_WIDTH][];
-            for (int i = 0; i < this.Pixels.Length; i++)
+            this.Width = sourceWidth;
+            this.Height = sourceHeight;
+            this.Label = sourceLabel;
+            this.Pixels = new byte[this.Width,this.Height];
+            for (int i = 0; i < this.Width; i++)
             {
-                this.Pixels[i] = new byte[MNIST_HEIGHT];
-            }
-            for (int i = 0; i < MNIST_HEIGHT; i++)
-            {
-                for (int j = 0; j < MNIST_WIDTH; j++)
+                for (int j = 0; j < this.Height; j++)
                 {
-                    this.Pixels[i][j] = pixels[i][j];
+                    this.Pixels[i, j] = sourcePixels[i, j];
                 }
             }
         }
@@ -47,11 +43,11 @@ namespace MnistImage
             get
             {
                 StringBuilder sb = new StringBuilder();
-                for (int i = 0; i < this.Height; i++)
+                for (int i = 0; i < this.Width; i++)
                 {
-                    for (int j = 0; j < this.Width; j++)
+                    for (int j = 0; j < this.Height; j++)
                     {
-                        sb.Append(this.Pixels[i][j].ToString("X2"));
+                        sb.Append(this.Pixels[i, j].ToString("X2"));
                         sb.Append(" ");
                     }
                     sb.Append(Environment.NewLine);
@@ -60,7 +56,7 @@ namespace MnistImage
             }
         }
 
-        public Bitmap GetDefaultmap()
+        public Bitmap GetBitmap()
         {
             return GetBitmap(1);
         }
@@ -75,7 +71,7 @@ namespace MnistImage
             {
                 for (int j = 0; j < this.Height; j++)
                 {
-                    int colorValue = 255 - this.Pixels[i][j];
+                    int colorValue = 255 - this.Pixels[i, j];
                     Color pixelColor = Color.FromArgb(colorValue, colorValue, colorValue);
                     SolidBrush brush = new SolidBrush(pixelColor);
                     graphic.FillRectangle(brush, j * magnification, i * magnification, magnification, magnification);

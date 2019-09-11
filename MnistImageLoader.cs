@@ -13,11 +13,7 @@ namespace MnistImage
         public static MnistImageInfo[] LoadMnistImages(string pixelFile, string lableFile)
         {
             MnistImageInfo[] result = new MnistImageInfo[MNIST_IMAGE_NUMBER];
-            byte[][] pixels = new byte[MnistImageInfo.MNIST_HEIGHT][];
-            for (int i = 0; i < pixels.Length; i++)
-            {
-                pixels[i] = new byte[MnistImageInfo.MNIST_WIDTH];
-            }
+            byte[,] pixels = new byte[MnistImageInfo.MNIST_WIDTH, MnistImageInfo.MNIST_HEIGHT];
             using (FileStream fsPixels = new FileStream(pixelFile, FileMode.Open))
             {
                 using (FileStream fsLables = new FileStream(lableFile, FileMode.Open))
@@ -39,7 +35,7 @@ namespace MnistImage
                                     for (int k = 0; k < MnistImageInfo.MNIST_WIDTH; k++)
                                     {
                                         byte b = imageReader.ReadByte();
-                                        pixels[j][k] = b;
+                                        pixels[j, k] = b;
                                     }
                                 }
                                 Byte lbl = labelReader.ReadByte();
